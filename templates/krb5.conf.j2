@@ -13,7 +13,9 @@
 
 [realms]
  {{ kerberos_client_realm_name| upper() }} = {
-  kdc = {{ kerberos_client_kdc_hostname }}.{{ kerberos_client_realm_name|lower() }}
+  {% for host in groups['kdc_servers'] %}
+  kdc = {{ host }}.{{ kerberos_client_realm_name|lower() }}
+  {% endfor %}  
   admin_server = {{ kerberos_client_admin_hostname }}.{{ kerberos_client_realm_name|lower() }}
  }
 
